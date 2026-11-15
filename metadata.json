@@ -1,0 +1,6 @@
+{
+  "name": "Cue",
+  "description": "Release radar for Nepali and global movies and video games across Android, iPhone, and web.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

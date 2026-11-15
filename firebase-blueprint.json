@@ -1,0 +1,211 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Private user profile and personalization preferences for a Cue member.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the profile owner."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 3,
+          "maxLength": 200,
+          "description": "Authenticated user email."
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Publicly shown display name inside the user's profile."
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional avatar URL."
+        },
+        "preferredRegion": {
+          "type": "string",
+          "enum": ["All", "Nepali", "Hollywood", "Bollywood", "Asian", "European", "Global"],
+          "description": "User's default cinema and game region filter."
+        },
+        "favoriteGenres": {
+          "type": "array",
+          "description": "Up to 8 preferred movie/game genres."
+        },
+        "favoritePlatforms": {
+          "type": "array",
+          "description": "Up to 8 preferred gaming platforms."
+        },
+        "bio": {
+          "type": "string",
+          "maxLength": 280,
+          "description": "Short personal bio."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of profile creation."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last profile update."
+        }
+      },
+      "required": ["uid", "email", "displayName", "preferredRegion", "favoriteGenres", "favoritePlatforms", "bio", "createdAt", "updatedAt"]
+    },
+    "SavedMediaItem": {
+      "title": "SavedMediaItem",
+      "description": "A movie or game saved to a user's personal Watchlist and/or Favorites.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Deterministic item slug ID."
+        },
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Owner Firebase Auth UID."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "originalTitle": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "mediaType": {
+          "type": "string",
+          "enum": ["movie", "game"]
+        },
+        "region": {
+          "type": "string",
+          "enum": ["Nepali", "Hollywood", "Bollywood", "Asian", "European", "Global"]
+        },
+        "language": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "releaseDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "displayDate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "releaseYear": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Upcoming", "Released", "TBA"]
+        },
+        "genres": {
+          "type": "array"
+        },
+        "platforms": {
+          "type": "array"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "popularityScore": {
+          "type": "integer"
+        },
+        "creator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140
+        },
+        "castOrStudio": {
+          "type": "array"
+        },
+        "runtimeOrPlaytime": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "synopsis": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 800
+        },
+        "releaseNotes": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "inWatchlist": {
+          "type": "boolean"
+        },
+        "isFavorite": {
+          "type": "boolean"
+        },
+        "userNotes": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "uid",
+        "title",
+        "mediaType",
+        "region",
+        "language",
+        "releaseDate",
+        "displayDate",
+        "status",
+        "genres",
+        "platforms",
+        "popularityScore",
+        "creator",
+        "castOrStudio",
+        "runtimeOrPlaytime",
+        "synopsis",
+        "releaseNotes",
+        "inWatchlist",
+        "isFavorite",
+        "userNotes",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user profile document containing user preferences and email."
+    },
+    "/users/{userId}/savedItems/{itemId}": {
+      "schema": { "$ref": "#/entities/SavedMediaItem" },
+      "description": "User's personal Watchlist and Favorites collection for movies and video games."
+    }
+  }
+}
